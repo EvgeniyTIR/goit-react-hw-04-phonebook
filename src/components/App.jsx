@@ -48,7 +48,7 @@ export class App extends Component {
     const { contacts } = this.state;
 
     return (
-      <Box maxWidth="400px" bg="background" ml="auto" mr="auto" mt={7} p={5}>
+      <Box maxWidth="500px" bg="background" ml="auto" mr="auto" mt={7} p={5}>
         <ContactForm newUserData={this.SubmitForm} />
         <ContactList
           data={this.filteredList(contacts)}
