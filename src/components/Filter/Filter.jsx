@@ -1,10 +1,11 @@
-import { Form, Formik, ErrorMessage, Field } from 'formik';
+import { Form, Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import React from 'react';
 import propTypes from 'prop-types';
+import { Input } from './Filter.styled';
 
-const schemaFiler = yup.object({
-  filter: yup.string().min(1).max(16),
+const yupFilter = yup.object({
+  filter: yup.string().min(1).max(20),
 });
 
 export const Filter = props => {
@@ -12,26 +13,21 @@ export const Filter = props => {
     filter: '',
   };
 
-  const getValues = (values, { resetForm }) => {
-    props.filterContactsName(values);
+  const getUserData = (val, { resetForm }) => {
+    props.filterContact(val);
     resetForm();
   };
 
   return (
     <>
-      <h2>Search by name</h2>
+      <p>Find contacts by name</p>
       <Formik
+        onSubmit={getUserData}
         initialValues={initialValues}
-        onSubmit={getValues}
-        validationSchema={schemaFiler}
+        validationSchema={yupFilter}
       >
         <Form>
-          <Field
-            type="text"
-            placeholder="Search"
-            name="filter"
-            id="searchName"
-          />
+          <Input type="text" name="filter" placeholder="Search Name" />
           <ErrorMessage name="filter" />
         </Form>
       </Formik>

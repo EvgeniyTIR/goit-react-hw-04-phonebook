@@ -1,10 +1,9 @@
-import React from 'react';
-import { Button } from 'style/style';
+import { Button, Title } from 'components/ContactList/ConstactList.styled';
 
 export const ContactList = ({ data, children, deleteContact }) => {
   return (
     <>
-      <h2>Contacts</h2>
+      <Title>Contacts</Title>
       {children}
       <ul onClick={deleteContact}>
         {data.map(item => (
