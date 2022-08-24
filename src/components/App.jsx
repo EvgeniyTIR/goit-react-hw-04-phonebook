@@ -16,7 +16,7 @@ export class App extends Component {
     filter: '',
   };
 
-  SubmitForm = data => {
+  submitForm = data => {
     const noRepitData = this.state.contacts.filter(
       item => item.name.toLowerCase() === data.name.toLowerCase()
     );
@@ -49,7 +49,7 @@ export class App extends Component {
 
     return (
       <Box maxWidth="500px" bg="background" ml="auto" mr="auto" mt={7} p={5}>
-        <ContactForm newUserData={this.SubmitForm} />
+        <ContactForm newUserData={this.submitForm} />
         <ContactList
           data={this.filteredList(contacts)}
           deleteContact={this.deleteContact}
