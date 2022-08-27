@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { ContactList } from './ContactList/ContactList';
-import { Filter } from './Filter/Filter';
+// import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Box } from './Box';
 import { GlobalStyle } from './GlobalStyle';
+import FilerChange from './Filter/FilerChange';
 
 export class App extends Component {
   state = {
@@ -15,6 +16,20 @@ export class App extends Component {
     ],
     filter: '',
   };
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   submitForm = data => {
     const noRepitData = this.state.contacts.filter(
@@ -27,16 +42,17 @@ export class App extends Component {
       : alert(`${data.name} User alredy in contacts.`);
   };
 
-  filterContact = val => {
-    this.setState({
-      filter: val.filter,
-    });
-  };
-
   deleteContact = id => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(item => item.id !== id),
     }));
+  };
+
+  handleChange = evt => {
+    const { name, value } = evt.currentTarget;
+    this.setState({
+      [name]: value,
+    });
   };
 
   filteredList = contacts =>
@@ -44,17 +60,30 @@ export class App extends Component {
       ? contacts
       : contacts.filter(item => item.name.includes(this.state.filter));
 
-  render() {
-    const { contacts } = this.state;
+  // filterContact = val => {
+  //   this.setState({
+  //     filter: val.filter,z
+  //   });
+  // };
 
+  render() {
+    const { contacts, filter } = this.state;
+    const filteredContact = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
     return (
-      <Box maxWidth="500px" bg="background" ml="auto" mr="auto" mt={7} p={5}>
+      <Box maxWidth="500px" bg="background" ml="auto" mr="auto" mt={6} p={5}>
         <ContactForm newUserData={this.submitForm} />
         <ContactList
           data={this.filteredList(contacts)}
           deleteContact={this.deleteContact}
         >
-          <Filter filterContact={this.filterContact} />
+          {/* <Filter filterContact={this.filterContact} /> */}
+          <FilerChange
+            value={filter}
+            onChange={this.handleChange}
+            contactlist={filteredContact}
+          />
         </ContactList>
         <GlobalStyle />
       </Box>
