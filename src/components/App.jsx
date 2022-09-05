@@ -25,16 +25,17 @@ export function App() {
 
   const submitForm = data => {
     const noRepitData = contacts.filter(
-      item => item.name.toLowerCase() === data.name.toLowerCase()
+      item =>
+        item.name.toLowerCase() === data.name.toLowerCase() ||
+        item.number === data.number
     );
     noRepitData.length < 1
       ? setContacts([...contacts, data])
-      : alert(`${data.name} User alredy in contacts.`);
+      : alert(`${data.name} User or number ${data.number} alredy in contacts `);
   };
 
   const deleteContact = id => {
-    console.log(contacts.filter(item => item.id !== id));
-    setContacts(contacts.filter(item => item.id !== id));
+    setContacts(prevState => prevState.filter(item => item.id !== id));
   };
 
   const handleChange = evt => {

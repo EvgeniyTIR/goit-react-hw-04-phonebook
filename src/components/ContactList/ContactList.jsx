@@ -5,7 +5,7 @@ export const ContactList = ({ data, children, deleteContact }) => {
     <>
       <Title>Contacts</Title>
       {children}
-      <ul onClick={deleteContact}>
+      <ul>
         {data.map(item => (
           <li key={item.id}>
             {' '}
